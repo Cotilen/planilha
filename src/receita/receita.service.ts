@@ -9,12 +9,12 @@ export class ReceitaService {
 
   constructor(private prisma: PrismaService){}
   async create(createReceitaDto: CreateReceitaDto) {
-    
     const  receita = await this.prisma.receita.create({
       data: {
         nome: createReceitaDto.nome,
         valor: createReceitaDto.valor,
-        dataReceita:  new Date(createReceitaDto.dataReceita)
+        dataReceita:  new Date(createReceitaDto.dataReceita),
+        id_usuario: createReceitaDto.id_usuario
       }
     })
     return {receita};
@@ -53,7 +53,8 @@ export class ReceitaService {
         id: receita.id,
         nome: receita.nome,
         valor: receita.valor,
-        dataReceita: dataFormatada
+        dataReceita: dataFormatada,
+        id_usuario: receita.id_usuario
       }
   
       return {receitaUnica};

@@ -1,4 +1,4 @@
-import { IsDateString, IsNotEmpty, IsNumber, IsString } from "class-validator"
+import { IsDateString, IsInt, IsNotEmpty, IsNumber, IsString } from "class-validator"
 
 export class CreateReceitaDto {
 
@@ -13,4 +13,8 @@ export class CreateReceitaDto {
     @IsNotEmpty()
     @IsDateString()
     dataReceita: string
+
+    @IsNotEmpty()
+    @IsInt()
+    id_usuario: number
 }
