@@ -57,6 +57,7 @@ model Usuario {
   id      Int      @id @default(autoincrement())
   nome    String   @db.VarChar(100)
   email   String   @db.VarChar(200)
+  senha   String   @db.Text
   despesas Despesa[] // Relacionamento com a tabela de despesas
   receitas Receita[] // Relacionamento com a tabela de receitas
   
