@@ -33,7 +33,7 @@ export class ReceitaService {
       };
     });
   
-    return {receitasFormatadas: receita};
+    return {receita};
   }
 
   async findOne(id: number) {
@@ -110,5 +110,25 @@ export class ReceitaService {
       };
     }
     
+  }
+
+  async findReceitaByUsuario(id: number){
+    const receitaBd =  await this.prisma.receita.findMany({
+      where:{
+        id_usuario: Number(id),
+      }
+    })
+
+    const receita = receitaBd.map(receita => {
+      const dataReceitaUTC = utcToZonedTime(receita.dataReceita, 'UTC');
+      const dataFormatada = format(dataReceitaUTC, 'dd/MM/yyyy', { timeZone: 'UTC' });
+  
+      return {
+        ...receita,
+        dataReceita: dataFormatada,
+      };
+    });
+
+    return {receita}
   }
 }

@@ -31,4 +31,9 @@ export class ReceitaController {
   async remove(@Param('id') id: string) {
     return await this.receitaService.remove(+id);
   }
+
+  @Get('usuario/:id')
+  async findReceitaByUsuario(@Param('id') id: string) {
+    return await this.receitaService.findReceitaByUsuario(+id);
+  }
 }
