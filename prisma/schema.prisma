@@ -14,52 +14,52 @@ datasource db {
 }
 
 // Define o modelo para tbl_categoriaDespesa
-model CategoriaDespesa {
+model tbl_categoryExpense {
   id          Int       @id @default(autoincrement())
-  nome        String    @db.VarChar(100)
-  descricao   String    @db.Text
-  despesas    Despesa[] // Relacionamento com a tabela de despesas
+  name        String    @db.VarChar(100)
+  description   String    @db.Text
+  expense    tbl_expense[] // Relacionamento com a tabela de despesas
   
   @@unique([id])
 }
 
 // Define o modelo para tbl_despesas
-model Despesa {
+model tbl_expense {
   id          Int           @id @default(autoincrement())
-  nome        String        @db.VarChar(100)
-  descricao   String        @db.Text
-  valor       Int
-  dataDespesa DateTime
-  id_categoria Int          // Chave estrangeira para tbl_categoriaDespesa
-  id_usuario  Int          // Chave estrangeira para tbl_usuario
+  name        String        @db.VarChar(100)
+  description   String        @db.Text
+  value       Int
+  dateExpense DateTime
+  id_category Int          // Chave estrangeira para tbl_categoriaDespesa
+  id_user  Int          // Chave estrangeira para tbl_usuario
   
-  categoria   CategoriaDespesa @relation(fields: [id_categoria], references: [id])
-  usuario     Usuario         @relation(fields: [id_usuario], references: [id])
+  category   tbl_categoryExpense @relation(fields: [id_category], references: [id])
+  user       tbl_users         @relation(fields: [id_user], references: [id])
   
   @@unique([id])
 }
 
 // Define o modelo para tbl_receita
-model Receita {
+model tbl_recipe {
   id           Int           @id @default(autoincrement())
-  nome         String        @db.VarChar(50)
-  valor        Int
-  dataReceita  DateTime
-  id_usuario   Int           // Chave estrangeira para tbl_usuario
+  name         String        @db.VarChar(50)
+  value        Int
+  dateRecipe   DateTime
+  id_user   Int           // Chave estrangeira para tbl_usuario
   
-  usuario      Usuario       @relation(fields: [id_usuario], references: [id])
+  user      tbl_users       @relation(fields: [id_user], references: [id])
   
   @@unique([id])
 }
 
 // Define o modelo para tbl_usuario
-model Usuario {
+model tbl_users {
   id      Int      @id @default(autoincrement())
-  nome    String   @db.VarChar(100)
+  name    String   @db.VarChar(100)
   email   String   @db.VarChar(200)
-  senha   String   @db.Text
-  despesas Despesa[] // Relacionamento com a tabela de despesas
-  receitas Receita[] // Relacionamento com a tabela de receitas
+  password   String   @db.Text
+  expense tbl_expense[] // Relacionamento com a tabela de despesas
+  recipe  tbl_recipe[] // Relacionamento com a tabela de receitas
   
   @@unique([id])
 }
