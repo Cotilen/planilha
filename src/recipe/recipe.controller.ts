@@ -3,7 +3,7 @@ import { ReceitaService } from './recipe.service';
 import { CreateReceitaDto } from './dto/create-recipe.dto';
 import { UpdateReceitaDto } from './dto/update-recipe.dto';
 
-@Controller('receita')
+@Controller('recipe')
 export class ReceitaController {
   constructor(private readonly receitaService: ReceitaService) {}
 
@@ -32,7 +32,7 @@ export class ReceitaController {
     return await this.receitaService.remove(+id);
   }
 
-  @Get('usuario/:id')
+  @Get('user/:id')
   async findReceitaByUsuario(@Param('id') id: string) {
     return await this.receitaService.findRecipeByUser(+id);
   }

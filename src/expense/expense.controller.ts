@@ -3,7 +3,7 @@ import { DespesaService } from './expense.service';
 import { CreateDespesaDto } from './dto/create-expense.dto';
 import { UpdateDespesaDto } from './dto/update-expense.dto';
 
-@Controller('despesa')
+@Controller('expense')
 export class DespesaController {
   constructor(private readonly despesaService: DespesaService) {}
 
