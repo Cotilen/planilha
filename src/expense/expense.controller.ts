@@ -8,27 +8,27 @@ export class DespesaController {
   constructor(private readonly despesaService: DespesaService) {}
 
   @Post()
-  create(@Body() createDespesaDto: CreateDespesaDto) {
-    return this.despesaService.create(createDespesaDto);
+  async create(@Body() createDespesaDto: CreateDespesaDto) {
+    return await this.despesaService.create(createDespesaDto);
   }
 
   @Get()
-  findAll() {
-    return this.despesaService.findAll();
+  async findAll() {
+    return await this.despesaService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.despesaService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.despesaService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDespesaDto: UpdateDespesaDto) {
-    return this.despesaService.update(+id, updateDespesaDto);
+  async update(@Param('id') id: string, @Body() updateDespesaDto: UpdateDespesaDto) {
+    return await this.despesaService.update(+id, updateDespesaDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.despesaService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.despesaService.remove(+id);
   }
 }
