@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDespesaDto } from './dto/create-expense.dto';
 import { UpdateDespesaDto } from './dto/update-expense.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { format, utcToZonedTime } from 'date-fns-tz';
 
 @Injectable()
 export class DespesaService {
@@ -22,17 +23,46 @@ export class DespesaService {
   }
 
   async findAll() {
-    const expense = await this.prisma.tbl_expense.findMany();
+    const expenseBd = await this.prisma.tbl_expense.findMany();
 
-    return { expense };
+    const expense = expenseBd.map(expense => {
+      const dateExpenseUTC = utcToZonedTime(expense.dateExpense, 'UTC');
+      const formatedDate = format(dateExpenseUTC, 'dd/MM/yyyy', { timeZone: 'UTC' });
+  
+      return {
+        ...expense,
+        dateExpense: formatedDate,
+      };
+    });
+
+    return {expense}
   }
 
   async findOne(id: number) {
-    const expense = await this.prisma.tbl_expense.findUnique({
+    const expenseBd = await this.prisma.tbl_expense.findUnique({
       where:{
         id: Number(id)
       }
     })
+
+    if(expenseBd == null){
+      throw new NotFoundException('Receita não encontrada');
+    }else{
+      const dateExpenseUTC = utcToZonedTime(expenseBd.dateExpense, 'UTC');
+      const formatedDate = format(dateExpenseUTC, 'dd/MM/yyyy', { timeZone: 'UTC' });
+      
+      let expense = {
+        id: expenseBd.id,
+        name: expenseBd.name,
+        value: expenseBd.value,
+        dateExpense: formatedDate,
+        id_user: expenseBd.id_user,
+        id_category: expenseBd.id_category
+      }
+  
+      return {expense};
+    }
+    
   }
 
   async update(id: number, updateDespesaDto: UpdateDespesaDto) {
@@ -82,6 +112,26 @@ export class DespesaService {
       return {
         mensagem: `A despesa com o ID ${id} foi removida com sucesso`
       }
+    }
+  }
+
+  async findExpenseByUser(id: number) {
+    const validationId = await this.prisma.tbl_expense.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (validationId == null) {
+      throw new NotFoundException('Receita não encontrada');
+    } else {
+      const expense = await this.prisma.tbl_expense.findMany({
+        where: {
+          id_user: Number(id),
+        },
+      });
+
+      return { expense };
     }
   }
 }

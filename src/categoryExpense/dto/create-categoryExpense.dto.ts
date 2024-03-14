@@ -6,7 +6,4 @@ export class CreateCategoriaDespesaDto {
     @IsNotEmpty()
     name: string
 
-    @IsString()
-    @IsNotEmpty()
-    description: string
 }

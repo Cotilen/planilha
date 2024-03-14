@@ -17,8 +17,8 @@ datasource db {
 model tbl_categoryExpense {
   id          Int       @id @default(autoincrement())
   name        String    @db.VarChar(100)
-  description   String    @db.Text
   expense    tbl_expense[] // Relacionamento com a tabela de despesas
+  fixedExpense    tbl_fixedExpense[] // Relacionamento com a tabela de despesas
   
   @@unique([id])
 }
@@ -60,6 +60,35 @@ model tbl_users {
   password   String   @db.Text
   expense tbl_expense[] // Relacionamento com a tabela de despesas
   recipe  tbl_recipe[] // Relacionamento com a tabela de receitas
+  fixedExpense tbl_fixedExpense[] // Relacionamento com a tabela de despesas
+  fixedRecipe  tbl_fixedRecipe[] // Relacionamento com a tabela de receitas
+  
+  @@unique([id])
+}
+
+// Define o modelo para tbl_despesasFixa
+model tbl_fixedExpense {
+  id          Int           @id @default(autoincrement())
+  name        String        @db.VarChar(100)
+  description   String        @db.Text
+  value       Int
+  id_category Int          // Chave estrangeira para tbl_categoriaDespesa
+  id_user  Int          // Chave estrangeira para tbl_usuario
+  
+  category   tbl_categoryExpense @relation(fields: [id_category], references: [id])
+  user       tbl_users         @relation(fields: [id_user], references: [id])
+  
+  @@unique([id])
+}
+
+// Define o modelo para tbl_receitaFixa
+model tbl_fixedRecipe {
+  id           Int           @id @default(autoincrement())
+  name         String        @db.VarChar(50)
+  value        Int
+  id_user   Int           // Chave estrangeira para tbl_usuario
+  
+  user      tbl_users       @relation(fields: [id_user], references: [id])
   
   @@unique([id])
 }

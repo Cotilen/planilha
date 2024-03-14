@@ -31,4 +31,9 @@ export class DespesaController {
   async remove(@Param('id') id: string) {
     return await this.despesaService.remove(+id);
   }
+
+  @Get('user/:id')
+  async findExpenseByUser(@Param('id') id: string) {
+    return await this.despesaService.findExpenseByUser(+id);
+  }
 }

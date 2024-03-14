@@ -10,7 +10,6 @@ export class CategoriaDespesaService {
     const category = await this.prisma.tbl_categoryExpense.create({
       data: {
         name: createCategoriaDespesaDto.name,
-        description: createCategoriaDespesaDto.description,
       },
     });
 
@@ -52,7 +51,6 @@ export class CategoriaDespesaService {
         },
         data: {
           name: updateCategoriaDespesaDto.name,
-          description: updateCategoriaDespesaDto.description,
         },
       });
 
