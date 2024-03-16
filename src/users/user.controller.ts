@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { UsuarioService } from './user.service';
 import { CreateUsuarioDto } from './dto/create-user.dto';
 import { UpdateUsuarioDto } from './dto/update-user.dto';
@@ -30,5 +30,11 @@ export class UsuarioController {
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.usuarioService.remove(+id);
+  }
+
+  @Get(':user/data/:date')
+  async findDataByDateAndUser(@Param('user') user: number, @Param('date') date: number) {
+    
+    return await this.usuarioService.findDataByDateAndUser(date, user)
   }
 }

@@ -81,4 +81,62 @@ export class UsuarioService {
       };
     }
   }
+
+  async findDataByDateAndUser(date: number , user: number){
+    var saldo: number = 0
+
+    const recipe : {
+      id: number,
+      name: string,
+      value: number,
+      date: string
+    }[] = await this.prisma.$queryRaw`select id, name, value, date_format(daterecipe, '%d/%m/%Y') as data 
+    from tbl_recipe where month(daterecipe) = ${date} and id_user = ${user}`
+
+    const fixedRecipe : {
+      id: number,
+      name: string,
+      value: number
+    }[] = await this.prisma.$queryRaw`select id, name, value from tbl_fixedrecipe where id_user = ${user};`
+
+    const expense : {
+      id: number,
+      name: string,
+      value: number,
+      data: string,
+      category: number
+    }[] = await this.prisma.$queryRaw`select id, name, value, date_format(dateexpense, '%d/%m/%Y') as data, id_category as category 
+    from tbl_expense where month(dateexpense) = ${date} and id_user = ${user};`
+
+    const fixedExpense : {
+      id: number,
+      name: string,
+      value: number,
+      category: number
+    }[]  = await this.prisma.$queryRaw`select id, name, value, id_category as category from tbl_fixedexpense where id_user = ${user};`
+
+    recipe.map(element => {
+      saldo = saldo + element.value
+    })
+
+    fixedRecipe.map(element => {
+      saldo = saldo + element.value
+    })
+
+    fixedExpense.map(element => {
+      saldo = saldo - element.value
+    })
+
+    expense.map(element => {
+      saldo = saldo - element.value
+    })
+    
+    return {
+      recipe: recipe,
+      fixedrecipe: fixedRecipe,
+      expense: expense,
+      fixedexpense: fixedExpense,
+      saldo: saldo
+    }
+  }
 }
