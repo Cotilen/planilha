@@ -14,3 +14,14 @@ export class CreateUsuarioDto {
     @IsNotEmpty()
     password: string
 }
+
+export class FindLoginDto {
+
+    @IsString()
+    @IsNotEmpty()
+    email: string
+
+    @IsString()
+    @IsNotEmpty()
+    password: string
+}

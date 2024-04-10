@@ -1,10 +1,11 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-user.dto';
 import { UpdateUsuarioDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class UsuarioService {
+export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   async create(createUsuarioDto: CreateUsuarioDto) {
@@ -56,7 +57,7 @@ export class UsuarioService {
         },
       });
 
-      return{user}
+      return { user };
     }
   }
 
@@ -71,72 +72,92 @@ export class UsuarioService {
       throw new NotFoundException('Usuario não encontrada');
     } else {
       const user = await this.prisma.tbl_users.delete({
-        where:{
-          id: Number(id)
-        }
-      })
+        where: {
+          id: Number(id),
+        },
+      });
 
       return {
-        mensagem: `O usuario com o ID ${id}, foi removido!`
+        mensagem: `O usuario com o ID ${id}, foi removido!`,
       };
     }
   }
 
-  async findDataByDateAndUser(date: number , user: number){
-    var saldo: number = 0
+  async findDataByDateAndUser(date: number, user: number) {
+    // eslint-disable-next-line no-var
+    var saldo: number = 0;
 
-    const recipe : {
-      id: number,
-      name: string,
-      value: number,
-      date: string
-    }[] = await this.prisma.$queryRaw`select id, name, value, date_format(daterecipe, '%d/%m/%Y') as data 
-    from tbl_recipe where month(daterecipe) = ${date} and id_user = ${user}`
+    const recipe: {
+      id: number;
+      name: string;
+      value: number;
+      date: string;
+    }[] = await this.prisma
+      .$queryRaw`select id, name, value, date_format(daterecipe, '%d/%m/%Y') as data 
+    from tbl_recipe where month(daterecipe) = ${date} and id_user = ${user}`;
 
-    const fixedRecipe : {
-      id: number,
-      name: string,
-      value: number
-    }[] = await this.prisma.$queryRaw`select id, name, value from tbl_fixedrecipe where id_user = ${user};`
+    const fixedRecipe: {
+      id: number;
+      name: string;
+      value: number;
+    }[] = await this.prisma
+      .$queryRaw`select id, name, value from tbl_fixedrecipe where id_user = ${user};`;
 
-    const expense : {
-      id: number,
-      name: string,
-      value: number,
-      data: string,
-      category: number
-    }[] = await this.prisma.$queryRaw`select id, name, value, date_format(dateexpense, '%d/%m/%Y') as data, id_category as category 
-    from tbl_expense where month(dateexpense) = ${date} and id_user = ${user};`
+    const expense: {
+      id: number;
+      name: string;
+      value: number;
+      data: string;
+      category: number;
+    }[] = await this.prisma
+      .$queryRaw`select id, name, value, date_format(dateexpense, '%d/%m/%Y') as data, id_category as category 
+    from tbl_expense where month(dateexpense) = ${date} and id_user = ${user};`;
 
-    const fixedExpense : {
-      id: number,
-      name: string,
-      value: number,
-      category: number
-    }[]  = await this.prisma.$queryRaw`select id, name, value, id_category as category from tbl_fixedexpense where id_user = ${user};`
+    const fixedExpense: {
+      id: number;
+      name: string;
+      value: number;
+      category: number;
+    }[] = await this.prisma
+      .$queryRaw`select id, name, value, id_category as category from tbl_fixedexpense where id_user = ${user};`;
 
-    recipe.map(element => {
-      saldo = saldo + element.value
-    })
+    recipe.map((element) => {
+      saldo = saldo + element.value;
+    });
 
-    fixedRecipe.map(element => {
-      saldo = saldo + element.value
-    })
+    fixedRecipe.map((element) => {
+      saldo = saldo + element.value;
+    });
 
-    fixedExpense.map(element => {
-      saldo = saldo - element.value
-    })
+    fixedExpense.map((element) => {
+      saldo = saldo - element.value;
+    });
 
-    expense.map(element => {
-      saldo = saldo - element.value
-    })
-    
+    expense.map((element) => {
+      saldo = saldo - element.value;
+    });
+
     return {
       recipe: recipe,
       fixedrecipe: fixedRecipe,
       expense: expense,
       fixedexpense: fixedExpense,
-      saldo: saldo
+      saldo: saldo,
+    };
+  }
+
+  async login(email: string, password: string){
+    const user = await this.prisma.tbl_users.findFirst({
+      where: {
+        email: email,
+        password: password
+      },
+    });
+    if(user)
+      return { user };
+    else{
+      throw new NotFoundException('Usuario não encontrada');
     }
+      
   }
 }
