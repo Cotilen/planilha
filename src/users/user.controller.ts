@@ -7,6 +7,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { UsersService as UsersService } from './user.service';
 import { CreateUsuarioDto, FindLoginDto } from './dto/create-user.dto';
@@ -24,6 +25,19 @@ export class UsersController {
   @Get()
   async findAll() {
     return await this.usersService.findAll();
+  }
+
+  @Get(':user/data/:date')
+  async findDataByDateAndUser(
+    @Param('user') user: number,
+    @Param('date') date: number,
+  ) {
+    return await this.usersService.findDataByDateAndUser(date, user);
+  }
+
+  @Get('data')
+  async findDataByDate(@Query('user')user: number, @Query('year')year: number) {
+    return await this.usersService.findDataByDate(year, user);
   }
 
   @Get(':id')
@@ -44,16 +58,12 @@ export class UsersController {
     return await this.usersService.remove(+id);
   }
 
-  @Get(':user/data/:date')
-  async findDataByDateAndUser(
-    @Param('user') user: number,
-    @Param('date') date: number,
-  ) {
-    return await this.usersService.findDataByDateAndUser(date, user);
-  }
+
 
   @Post('/login')
   async login(@Body() findLoginDto:FindLoginDto) {
     return await this.usersService.login(findLoginDto.email, findLoginDto.password);
   }
+
+
 }

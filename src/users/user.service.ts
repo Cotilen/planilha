@@ -146,6 +146,50 @@ export class UsersService {
     };
   }
 
+  async findDataByDate(date: number, user: number){
+    const recipe: {
+      id: number;
+      name: string;
+      value: number;
+      date: string;
+    }[] = await this.prisma
+      .$queryRaw`select id, name, value, date_format(daterecipe, '%d/%m/%Y') as data 
+    from tbl_recipe where year(daterecipe) = ${date} and id_user = ${user}`;
+
+    const fixedRecipe: {
+      id: number;
+      name: string;
+      value: number;
+    }[] = await this.prisma
+      .$queryRaw`select id, name, value from tbl_fixedrecipe where id_user = ${user};`;
+
+    const expense: {
+      id: number;
+      name: string;
+      value: number;
+      data: string;
+      category: number;
+    }[] = await this.prisma
+      .$queryRaw`select id, name, value, date_format(dateexpense, '%d/%m/%Y') as data, id_category as category 
+    from tbl_expense where year(dateexpense) = ${date} and id_user = ${user};`;
+
+    const fixedExpense: {
+      id: number;
+      name: string;
+      value: number;
+      category: number;
+    }[] = await this.prisma
+      .$queryRaw`select id, name, value, id_category as category from tbl_fixedexpense where id_user = ${user};`;
+
+      return{
+        recipe: recipe,
+        fixedrecipe: fixedRecipe,
+        expense: expense,
+        fixedexpense: fixedExpense,
+      }
+      
+  }
+
   async login(email: string, password: string){
     const user = await this.prisma.tbl_users.findFirst({
       where: {
