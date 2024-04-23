@@ -9,7 +9,6 @@ export class DespesaController {
 
   @Post()
   async create(@Body() createDespesaDto: CreateDespesaDto) {
-    console.log(createDespesaDto);
     
     return await this.despesaService.create(createDespesaDto);
   }

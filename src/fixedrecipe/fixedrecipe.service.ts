@@ -13,6 +13,7 @@ export class FixedrecipeService {
         name: createFixedrecipeDto.name,
         value: createFixedrecipeDto.value,
         id_user: createFixedrecipeDto.id_user,
+        dateRecipe: new Date(createFixedrecipeDto.dateRecipe),
       },
     });
     return { recipe };
@@ -51,6 +52,7 @@ export class FixedrecipeService {
         data: {
           name: updateFixedrecipeDto.name,
           value: updateFixedrecipeDto.value,
+          dateRecipe: new Date(updateFixedrecipeDto.dateRecipe),
         },
         where: {
           id: Number(id),

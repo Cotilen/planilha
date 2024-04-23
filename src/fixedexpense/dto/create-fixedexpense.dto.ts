@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator"
+import { IsDateString, IsNotEmpty, IsNumber, IsString } from "class-validator"
 
 export class CreateFixedexpenseDto {
 
@@ -21,4 +21,9 @@ export class CreateFixedexpenseDto {
     @IsNotEmpty()
     @IsNumber()
     id_category:number
+
+    
+    @IsNotEmpty()
+    @IsDateString()
+    dateExpense:string
 }

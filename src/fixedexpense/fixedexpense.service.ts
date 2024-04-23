@@ -13,7 +13,8 @@ export class FixedexpenseService {
         description: createFixedexpenseDto.description,
         value: createFixedexpenseDto.value,
         id_user: createFixedexpenseDto.id_user,
-        id_category: createFixedexpenseDto.id_category
+        id_category: createFixedexpenseDto.id_category,
+        dateExpense:  new Date(createFixedexpenseDto.dateExpense)
       }
     })
 
@@ -59,7 +60,8 @@ export class FixedexpenseService {
           name: updateFixedexpenseDto.name,
           description: updateFixedexpenseDto.description,
           value: updateFixedexpenseDto.value,
-          id_category: updateFixedexpenseDto.id_category
+          id_category: updateFixedexpenseDto.id_category,
+          dateExpense:  new Date(updateFixedexpenseDto.dateExpense)
         }
       })
 

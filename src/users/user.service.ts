@@ -93,15 +93,16 @@ export class UsersService {
       value: number;
       date: string;
     }[] = await this.prisma
-      .$queryRaw`select id, name, value, date_format(daterecipe, '%d/%m/%Y') as data 
+      .$queryRaw`select id, name, value, daterecipe as data 
     from tbl_recipe where month(daterecipe) = ${date} and id_user = ${user}`;
 
     const fixedRecipe: {
       id: number;
       name: string;
       value: number;
+      dateRecipe: string
     }[] = await this.prisma
-      .$queryRaw`select id, name, value from tbl_fixedrecipe where id_user = ${user};`;
+      .$queryRaw`select id, name, value,dateRecipe  from tbl_fixedrecipe where id_user = ${user};`;
 
     const expense: {
       id: number;
@@ -110,7 +111,7 @@ export class UsersService {
       data: string;
       category: number;
     }[] = await this.prisma
-      .$queryRaw`select id, name, value, date_format(dateexpense, '%d/%m/%Y') as data, id_category as category 
+      .$queryRaw`select id, name, value, dateexpense as data, id_category as category 
     from tbl_expense where month(dateexpense) = ${date} and id_user = ${user};`;
 
     const fixedExpense: {
@@ -118,8 +119,9 @@ export class UsersService {
       name: string;
       value: number;
       category: number;
+      dateExpense: string
     }[] = await this.prisma
-      .$queryRaw`select id, name, value, id_category as category from tbl_fixedexpense where id_user = ${user};`;
+      .$queryRaw`select id, name, value, id_category as category, dateExpense from tbl_fixedexpense where id_user = ${user};`;
 
     recipe.map((element) => {
       saldo = saldo + element.value;
@@ -153,15 +155,16 @@ export class UsersService {
       value: number;
       date: string;
     }[] = await this.prisma
-      .$queryRaw`select id, name, value, date_format(daterecipe, '%d/%m/%Y') as data 
+      .$queryRaw`select id, name, value, dateRecipe as data 
     from tbl_recipe where year(daterecipe) = ${date} and id_user = ${user}`;
 
     const fixedRecipe: {
       id: number;
       name: string;
       value: number;
+      dateRecipe: string
     }[] = await this.prisma
-      .$queryRaw`select id, name, value from tbl_fixedrecipe where id_user = ${user};`;
+      .$queryRaw`select id, name, value, dateRecipe from tbl_fixedrecipe where id_user = ${user};`;
 
     const expense: {
       id: number;
@@ -170,7 +173,7 @@ export class UsersService {
       data: string;
       category: number;
     }[] = await this.prisma
-      .$queryRaw`select id, name, value, date_format(dateexpense, '%d/%m/%Y') as data, id_category as category 
+      .$queryRaw`select id, name, value,dateexpense as data, id_category as category 
     from tbl_expense where year(dateexpense) = ${date} and id_user = ${user};`;
 
     const fixedExpense: {
@@ -178,8 +181,11 @@ export class UsersService {
       name: string;
       value: number;
       category: number;
+      dateExpense: string
     }[] = await this.prisma
-      .$queryRaw`select id, name, value, id_category as category from tbl_fixedexpense where id_user = ${user};`;
+      .$queryRaw`select id, name, value,dateExpense, id_category as category from tbl_fixedexpense where id_user = ${user};`;
+
+      
 
       return{
         recipe: recipe,

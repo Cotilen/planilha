@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsNumber, IsString } from "class-validator"
+import { IsDateString, IsInt, IsNotEmpty, IsNumber, IsString } from "class-validator"
 
 export class CreateFixedrecipeDto {
 
@@ -13,4 +13,8 @@ export class CreateFixedrecipeDto {
     @IsNotEmpty()
     @IsInt()
     id_user: number
+
+    @IsNotEmpty()
+    @IsDateString()
+    dateRecipe: string
 }
