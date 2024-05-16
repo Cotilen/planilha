@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { FixedexpenseService } from './fixedexpense.service';
 import { CreateFixedexpenseDto } from './dto/create-fixedexpense.dto';
 import { UpdateFixedexpenseDto } from './dto/update-fixedexpense.dto';
+import { FinalDateDto } from 'src/fixedrecipe/dto/create-fixedrecipe.dto';
 
 @Controller('fixedexpense')
 export class FixedexpenseController {
@@ -35,5 +36,11 @@ export class FixedexpenseController {
   @Get('user/:id')
   async findExpenseByUser(@Param('id') id: string) {
     return await this.fixedexpenseService.findExpenseByUser(+id);
+  }
+
+  
+  @Patch('data/:id')
+  async updateFinalDate(@Param('id') id: string, @Body() updateFixedexpenseDto: FinalDateDto) {
+    return await  this.fixedexpenseService.updateFinalDate(+id, updateFixedexpenseDto);
   }
 }

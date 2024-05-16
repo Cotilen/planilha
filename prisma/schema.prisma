@@ -45,7 +45,6 @@ model tbl_recipe {
   name         String        @db.VarChar(50)
   value        Int
   dateRecipe   DateTime
-  finalDate    DateTime?
   id_user   Int           // Chave estrangeira para tbl_usuario
   
   user      tbl_users       @relation(fields: [id_user], references: [id])
@@ -74,6 +73,7 @@ model tbl_fixedExpense {
   description   String        @db.Text
   value       Int
   dateExpense   DateTime
+  finalDate    DateTime?
   id_category Int          // Chave estrangeira para tbl_categoriaDespesa
   id_user  Int          // Chave estrangeira para tbl_usuario
   

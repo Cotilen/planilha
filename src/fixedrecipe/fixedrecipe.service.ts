@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateFixedrecipeDto } from './dto/create-fixedrecipe.dto';
+import { CreateFixedrecipeDto, FinalDateDto } from './dto/create-fixedrecipe.dto';
 import { UpdateFixedrecipeDto } from './dto/update-fixedrecipe.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -26,7 +26,7 @@ export class FixedrecipeService {
   }
 
   async findOne(id: number) {
-    const recipe = await this.prisma.tbl_recipe.findUnique({
+    const recipe = await this.prisma.tbl_fixedRecipe.findUnique({
       where: {
         id: Number(id),
       },
@@ -39,7 +39,7 @@ export class FixedrecipeService {
     }
   }
   async update(id: number, updateFixedrecipeDto: UpdateFixedrecipeDto) {
-    const validationID = await this.prisma.tbl_recipe.findUnique({
+    const validationID = await this.prisma.tbl_fixedRecipe.findUnique({
       where: {
         id: Number(id),
       },
@@ -86,14 +86,15 @@ export class FixedrecipeService {
   }
 
   async findRecipeByUser(id: number) {
-    const validationId = await this.prisma.tbl_fixedRecipe.findUnique({
+    
+    const validationId = await this.prisma.tbl_users.findUnique({
       where: {
         id: Number(id),
       },
     });
 
     if (validationId == null) {
-      throw new NotFoundException('Receita não encontrada');
+      throw new NotFoundException('Usuáiro não encontrado');
     } else {
       const recipe = await this.prisma.tbl_fixedRecipe.findMany({
         where: {
@@ -102,6 +103,29 @@ export class FixedrecipeService {
       });
 
       return { recipe };
+    }
+  }
+
+  async updateFinalDate(id: number, updateFixedrecipeDto: FinalDateDto) {
+    const validationID = await this.prisma.tbl_fixedRecipe.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (validationID == null) {
+      throw new NotFoundException('Receita não encontrada');
+    } else {
+      const recipe = await this.prisma.tbl_fixedRecipe.update({
+        data: {
+          finalDate: new Date(updateFixedrecipeDto.finalDate),
+        },
+        where: {
+          id: Number(id),
+        },
+      });
+
+      return { receita: recipe };
     }
   }
 }

@@ -18,3 +18,9 @@ export class CreateFixedrecipeDto {
     @IsDateString()
     dateRecipe: string
 }
+
+export class FinalDateDto {
+    @IsNotEmpty()
+    @IsDateString()
+    finalDate: string
+}

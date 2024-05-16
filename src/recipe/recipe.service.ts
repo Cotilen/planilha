@@ -112,14 +112,14 @@ export class ReceitaService {
   }
 
   async findRecipeByUser(id: number) {
-    const validationId = await this.prisma.tbl_recipe.findUnique({
+    const validationId = await this.prisma.tbl_users.findUnique({
       where: {
         id: Number(id),
       },
     });
 
     if (validationId == null) {
-      throw new NotFoundException('Receita não encontrada');
+      throw new NotFoundException('Usuário não encontrado');
     } else {
       const recipeBd = await this.prisma.tbl_recipe.findMany({
         where: {

@@ -116,14 +116,14 @@ export class DespesaService {
   }
 
   async findExpenseByUser(id: number) {
-    const validationId = await this.prisma.tbl_expense.findUnique({
+    const validationId = await this.prisma.tbl_users.findUnique({
       where: {
         id: Number(id),
       },
     });
 
     if (validationId == null) {
-      throw new NotFoundException('Receita não encontrada');
+      throw new NotFoundException('Usuário não encontrado');
     } else {
       const expense = await this.prisma.tbl_expense.findMany({
         where: {

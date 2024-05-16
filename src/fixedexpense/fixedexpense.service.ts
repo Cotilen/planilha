@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFixedexpenseDto } from './dto/create-fixedexpense.dto';
 import { UpdateFixedexpenseDto } from './dto/update-fixedexpense.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { FinalDateDto } from 'src/fixedrecipe/dto/create-fixedrecipe.dto';
 
 @Injectable()
 export class FixedexpenseService {
@@ -92,14 +93,14 @@ export class FixedexpenseService {
   }
 
   async findExpenseByUser(id: number) {
-    const validationId = await this.prisma.tbl_fixedExpense.findUnique({
+    const validationId = await this.prisma.tbl_users.findUnique({
       where: {
         id: Number(id),
       },
     });
 
     if (validationId == null) {
-      throw new NotFoundException('Receita não encontrada');
+      throw new NotFoundException('Usuário não encontrado');
     } else {
       const expense = await this.prisma.tbl_fixedExpense.findMany({
         where: {
@@ -108,6 +109,29 @@ export class FixedexpenseService {
       });
 
       return { expense };
+    }
+  }
+
+  async updateFinalDate(id: number, updateFixedexpenseDto: FinalDateDto) {
+    const validationId = await this.prisma.tbl_fixedExpense.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if(validationId == null){
+      throw new NotFoundException('Despesa não encontrada');
+    }else{
+      const expense = await this.prisma.tbl_fixedExpense.update({
+        where: {
+          id: Number(id),
+        },
+        data: {
+          finalDate: updateFixedexpenseDto.finalDate
+        }
+      })
+
+       return {expense};
     }
   }
 }

@@ -27,6 +27,7 @@ CREATE TABLE `tbl_recipe` (
     `name` VARCHAR(50) NOT NULL,
     `value` INTEGER NOT NULL,
     `dateRecipe` DATETIME(3) NOT NULL,
+    `finalDate` DATETIME(3) NULL,
     `id_user` INTEGER NOT NULL,
 
     UNIQUE INDEX `tbl_recipe_id_key`(`id`),
@@ -50,6 +51,7 @@ CREATE TABLE `tbl_fixedExpense` (
     `name` VARCHAR(100) NOT NULL,
     `description` TEXT NOT NULL,
     `value` INTEGER NOT NULL,
+    `dateExpense` DATETIME(3) NOT NULL,
     `id_category` INTEGER NOT NULL,
     `id_user` INTEGER NOT NULL,
 
@@ -62,6 +64,8 @@ CREATE TABLE `tbl_fixedRecipe` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(50) NOT NULL,
     `value` INTEGER NOT NULL,
+    `dateRecipe` DATETIME(3) NOT NULL,
+    `finalDate` DATETIME(3) NULL,
     `id_user` INTEGER NOT NULL,
 
     UNIQUE INDEX `tbl_fixedRecipe_id_key`(`id`),

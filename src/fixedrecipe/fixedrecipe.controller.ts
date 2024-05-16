@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { FixedrecipeService } from './fixedrecipe.service';
-import { CreateFixedrecipeDto } from './dto/create-fixedrecipe.dto';
+import { CreateFixedrecipeDto, FinalDateDto } from './dto/create-fixedrecipe.dto';
 import { UpdateFixedrecipeDto } from './dto/update-fixedrecipe.dto';
 
 @Controller('fixedrecipe')
@@ -35,5 +35,10 @@ export class FixedrecipeController {
   @Get('user/:id')
   async findRecipeByUser(@Param('id') id: string) {
     return await this.fixedrecipeService.findRecipeByUser(+id);
+  }
+
+  @Patch('data/:id')
+  async updateFinalDate(@Param('id') id: string, @Body() updateFixedrecipeDto: FinalDateDto) {
+    return await this.fixedrecipeService.updateFinalDate(+id, updateFixedrecipeDto);
   }
 }
