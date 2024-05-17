@@ -48,18 +48,35 @@ export class FixedrecipeService {
     if (validationID == null) {
       throw new NotFoundException('Receita não encontrada');
     } else {
-      const recipe = await this.prisma.tbl_fixedRecipe.update({
-        data: {
-          name: updateFixedrecipeDto.name,
-          value: updateFixedrecipeDto.value,
-          dateRecipe: new Date(updateFixedrecipeDto.dateRecipe),
-        },
-        where: {
-          id: Number(id),
-        },
-      });
-
-      return { receita: recipe };
+      if(updateFixedrecipeDto.finalDate == null) {
+        const recipe = await this.prisma.tbl_fixedRecipe.update({
+          data: {
+            name: updateFixedrecipeDto.name,
+            value: updateFixedrecipeDto.value,
+            dateRecipe: new Date(updateFixedrecipeDto.dateRecipe),
+          },
+          where: {
+            id: Number(id),
+          },
+        });
+  
+        return { receita: recipe };
+      }else{
+        const recipe = await this.prisma.tbl_fixedRecipe.update({
+          data: {
+            name: updateFixedrecipeDto.name,
+            value: updateFixedrecipeDto.value,
+            dateRecipe: new Date(updateFixedrecipeDto.dateRecipe),
+            finalDate:new Date(updateFixedrecipeDto.finalDate) 
+          },
+          where: {
+            id: Number(id),
+          },
+        });
+  
+        return { receita: recipe };
+      }
+   
     }
   }
 
