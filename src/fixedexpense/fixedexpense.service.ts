@@ -53,20 +53,40 @@ export class FixedexpenseService {
     if(validationId == null){
       throw new NotFoundException('Despesa não encontrada');
     }else{
-      const expense = await this.prisma.tbl_fixedExpense.update({
-        where: {
-          id: Number(id),
-        },
-        data: {
-          name: updateFixedexpenseDto.name,
-          description: updateFixedexpenseDto.description,
-          value: updateFixedexpenseDto.value,
-          id_category: updateFixedexpenseDto.id_category,
-          dateExpense:  new Date(updateFixedexpenseDto.dateExpense)
-        }
-      })
 
-       return {expense};
+      if(updateFixedexpenseDto.finalDate == null) {
+        const expense = await this.prisma.tbl_fixedExpense.update({
+          where: {
+            id: Number(id),
+          },
+          data: {
+            name: updateFixedexpenseDto.name,
+            description: updateFixedexpenseDto.description,
+            value: updateFixedexpenseDto.value,
+            id_category: updateFixedexpenseDto.id_category,
+            dateExpense:  new Date(updateFixedexpenseDto.dateExpense)
+          }
+        })
+  
+         return {expense};  
+      }else{
+        const expense = await this.prisma.tbl_fixedExpense.update({
+          where: {
+            id: Number(id),
+          },
+          data: {
+            name: updateFixedexpenseDto.name,
+            description: updateFixedexpenseDto.description,
+            value: updateFixedexpenseDto.value,
+            id_category: updateFixedexpenseDto.id_category,
+            dateExpense:  new Date(updateFixedexpenseDto.dateExpense),
+            finalDate: new Date(updateFixedexpenseDto.finalDate)
+          }
+        })
+  
+         return {expense};
+      }
+      
     }
   }
 
