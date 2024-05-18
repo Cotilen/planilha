@@ -56,6 +56,7 @@ export class DespesaService {
         name: expenseBd.name,
         value: expenseBd.value,
         dateExpense: formatedDate,
+        description: expenseBd.description,
         id_user: expenseBd.id_user,
         id_category: expenseBd.id_category
       }
