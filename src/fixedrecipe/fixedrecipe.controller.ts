@@ -5,7 +5,7 @@ import { UpdateFixedrecipeDto } from './dto/update-fixedrecipe.dto';
 
 @Controller('fixedrecipe')
 export class FixedrecipeController {
-  constructor(private readonly fixedrecipeService: FixedrecipeService) {}
+  constructor(private readonly fixedrecipeService: FixedrecipeService) { }
 
   @Post()
   async create(@Body() createFixedrecipeDto: CreateFixedrecipeDto) {
@@ -19,7 +19,7 @@ export class FixedrecipeController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await  this.fixedrecipeService.findOne(+id);
+    return await this.fixedrecipeService.findOne(+id);
   }
 
   @Patch(':id')

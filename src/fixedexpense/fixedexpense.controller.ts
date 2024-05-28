@@ -6,7 +6,7 @@ import { FinalDateDto } from 'src/fixedrecipe/dto/create-fixedrecipe.dto';
 
 @Controller('fixedexpense')
 export class FixedexpenseController {
-  constructor(private readonly fixedexpenseService: FixedexpenseService) {}
+  constructor(private readonly fixedexpenseService: FixedexpenseService) { }
 
   @Post()
   async create(@Body() createFixedexpenseDto: CreateFixedexpenseDto) {
@@ -25,12 +25,12 @@ export class FixedexpenseController {
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateFixedexpenseDto: UpdateFixedexpenseDto) {
-    return await  this.fixedexpenseService.update(+id, updateFixedexpenseDto);
+    return await this.fixedexpenseService.update(+id, updateFixedexpenseDto);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return await  this.fixedexpenseService.remove(+id);
+    return await this.fixedexpenseService.remove(+id);
   }
 
   @Get('user/:id')
@@ -38,9 +38,9 @@ export class FixedexpenseController {
     return await this.fixedexpenseService.findExpenseByUser(+id);
   }
 
-  
+
   @Patch('data/:id')
   async updateFinalDate(@Param('id') id: string, @Body() updateFixedexpenseDto: FinalDateDto) {
-    return await  this.fixedexpenseService.updateFinalDate(+id, updateFixedexpenseDto);
+    return await this.fixedexpenseService.updateFinalDate(+id, updateFixedexpenseDto);
   }
 }
