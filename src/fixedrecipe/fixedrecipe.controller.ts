@@ -36,9 +36,4 @@ export class FixedrecipeController {
   async findRecipeByUser(@Param('id') id: string) {
     return await this.fixedrecipeService.findRecipeByUser(+id);
   }
-
-  @Patch('data/:id')
-  async updateFinalDate(@Param('id') id: string, @Body() updateFixedrecipeDto: FinalDateDto) {
-    return await this.fixedrecipeService.updateFinalDate(+id, updateFixedrecipeDto);
-  }
 }

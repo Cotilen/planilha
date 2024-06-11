@@ -37,10 +37,4 @@ export class FixedexpenseController {
   async findExpenseByUser(@Param('id') id: string) {
     return await this.fixedexpenseService.findExpenseByUser(+id);
   }
-
-
-  @Patch('data/:id')
-  async updateFinalDate(@Param('id') id: string, @Body() updateFixedexpenseDto: FinalDateDto) {
-    return await this.fixedexpenseService.updateFinalDate(+id, updateFixedexpenseDto);
-  }
 }
